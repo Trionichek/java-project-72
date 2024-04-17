@@ -101,7 +101,6 @@ public class UrlsController {
             ctx.sessionAttribute("flash", "Некорректный адрес");
             ctx.sessionAttribute("flash-type", "danger");
             ctx.redirect(NamedRoutes.urlPath(id));
-            //ctx.redirect(NamedRoutes.urlsPath());
         }
     }
 }
