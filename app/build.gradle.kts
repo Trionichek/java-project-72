@@ -28,6 +28,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("com.konghq:unirest-java:3.14.1")
     implementation("org.jsoup:jsoup:1.17.2")
+    implementation("org.postgresql:postgresql:42.6.0")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.19.0")
