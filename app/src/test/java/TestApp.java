@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import hexlet.code.repository.UrlCheckRepository;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
@@ -105,18 +106,18 @@ public class TestApp {
         });
     }
 
-    /*@Test
+    @Test
     void testCheckUrl() throws SQLException {
-        var url = mockServer.url("/").toString();
+        var url = "https://www.example.com";
         Url urlForCheck = new Url(url, new Timestamp(new Date().getTime()));
         UrlRepository.save(urlForCheck);
         JavalinTest.test(app, (server, client) -> {
             var response = client.post("/urls/" + urlForCheck.getId() + "/checks");
             assertThat(response.code()).isEqualTo(200);
             var lastCheck = UrlCheckRepository.find(urlForCheck.getId()).orElseThrow();
-            assertThat(lastCheck.getTitle()).isEqualTo("Example Title");
+            assertThat(lastCheck.getTitle()).isEqualTo("Example Domain");
             assertThat(lastCheck.getH1()).isEqualTo("Example Domain");
             assertThat(lastCheck.getDescription()).isEqualTo("");
         });
-    }*/
+    }
 }

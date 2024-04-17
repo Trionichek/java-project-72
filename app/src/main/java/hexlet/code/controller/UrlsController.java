@@ -88,8 +88,7 @@ public class UrlsController {
             var body = Jsoup.parse(response.getBody());
             var title = body.title();
             var h1 = body.selectFirst("h1").wholeText();
-            //String description = body.select("meta[name=description]").attr("content");
-            String description = "Test String";
+            var description = body.select("meta[name=description]").attr("content");
             Timestamp createdAt = new Timestamp(new Date().getTime());
             UrlCheck urlCheck = new UrlCheck(id, statusCode, title, h1, description, createdAt);
             UrlCheckRepository.save(urlCheck);
