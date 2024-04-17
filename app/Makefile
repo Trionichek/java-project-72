@@ -1,5 +1,11 @@
 .DEFAULT_GOAL := build-run
 
+check-deps:
+	./gradlew dependencyUpdates -Drevision=release
+
+dev:
+	./gradlew run
+
 setup:
 	./gradlew wrapper --gradle-version 8.5
 
@@ -26,10 +32,6 @@ report:
 
 lint:
 	./gradlew checkstyleMain
-
-check-deps:
-	./gradlew dependencyUpdates -Drevision=release
-
 
 build-run: build run
 
