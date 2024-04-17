@@ -20,13 +20,14 @@ import gg.jte.resolve.ResourceCodeResolver;
 @Slf4j
 public final class App {
 
-    private static String getUrl() {
+    /*private static String getUrl() {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
-    }
+    }*/
 
     public static Javalin getApp() throws IOException, SQLException {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+        hikariConfig.setJdbcUrl(System.getenv()
+                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;"));
 
         var dataSource = new HikariDataSource(hikariConfig);
         var url = App.class.getClassLoader().getResource("schema.sql");
@@ -44,7 +45,6 @@ public final class App {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
-            //config.plugins.enableDevLogging();
         });
 
         app.get(NamedRoutes.rootPath(), UrlsController::index);
@@ -56,8 +56,6 @@ public final class App {
         app.post(NamedRoutes.urlCheckPath("{id}"), UrlsController::check);
         app.get(NamedRoutes.urlCheckPath("{id}"), UrlsController::show);
 
-
-        //JavalinJte.init(createTemplateEngine());
         return app;
     }
 
