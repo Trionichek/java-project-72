@@ -83,7 +83,7 @@ public class UrlsController {
         try {
             Long id = ctx.pathParamAsClass("id", Long.class).get();
             var url = UrlRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
-            HttpResponse<String> response = Unirest.get(url.getUrl()).asString();
+            HttpResponse<String> response = Unirest.get(url.getName()).asString();
             var statusCode = response.getStatus();
             var body = Jsoup.parse(response.getBody());
             var title = body.title();

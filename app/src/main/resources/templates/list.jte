@@ -26,7 +26,7 @@ content = @`
                         ${url.getId()}
                     </td>
                     <td>
-                        <a href="urls/${url.getId()}">${url.getUrl()}</a>
+                        <a href="urls/${url.getId()}">${url.getName()}</a>
                     </td>
                     <td>
                         @if(!UrlCheckRepository.getEntities(url.getId()).isEmpty())

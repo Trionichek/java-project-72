@@ -15,16 +15,16 @@ public class Url {
     private Long id;
 
     @ToString.Include
-    private String url;
+    private String name;
 
     private Timestamp createdAt;
 
-    public Url(String url, Timestamp createdAt) {
-        this.url = url;
+    public Url(String name, Timestamp createdAt) {
+        this.name = name;
         this.createdAt = createdAt;
     }
 
-    public Url(String url) {
-        this.url = url;
+    public Url(String name) {
+        this.name = name;
     }
 }
