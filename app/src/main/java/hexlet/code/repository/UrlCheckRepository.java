@@ -59,7 +59,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> getEntities(Long urlId) {
-        var sql = "SELECT * FROM url_checks where url_id = ?";
+        var sql = "SELECT * FROM url_checks where url_id = ? order by id desc";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, urlId);
