@@ -74,7 +74,8 @@ public class TestApp {
             assertThat(response.code()).isEqualTo(200);
             var bodyString = response.body().string();
 
-            assertEquals("https://www.example.com", UrlRepository.find("https://www.example.com", "name").get().getUrl());
+            assertEquals("https://www.example.com",
+                    UrlRepository.find("https://www.example.com", "name").get().getUrl());
             assertThat(bodyString).contains("Сайты");
             assertThat(bodyString).contains("https://www.example.com");
         });
