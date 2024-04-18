@@ -12,7 +12,7 @@ import java.util.Optional;
 public class UrlCheckRepository extends BaseRepository {
     public static void save(UrlCheck urlCheck) {
         String sql =
-                "INSERT INTO url_check (url_id, status_code, h1, title, description, created_at) "
+                "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
                         + "VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -36,7 +36,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static Optional<UrlCheck> find(Long id) {
-        var sql = "SELECT * FROM url_check WHERE id = ?";
+        var sql = "SELECT * FROM url_checks WHERE id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -59,7 +59,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> getEntities(Long urlId) {
-        var sql = "SELECT * FROM url_check where url_id = ?";
+        var sql = "SELECT * FROM url_checks where url_id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, urlId);

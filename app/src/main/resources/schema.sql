@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS url_check CASCADE;
+DROP TABLE IF EXISTS url_checks CASCADE;
 DROP TABLE IF EXISTS urls CASCADE;
 
 CREATE TABLE urls (
@@ -7,7 +7,7 @@ CREATE TABLE urls (
     created_at TIMESTAMP                                  NOT NULL
 );
 
-CREATE TABLE url_check (
+CREATE TABLE url_checks (
     id          BIGINT GENERATED ALWAYS AS IDENTITY UNIQUE NOT NULL,
     url_id      BIGINT REFERENCES urls (id)                NOT NULL,
     status_code INT,
