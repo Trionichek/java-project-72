@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Objects;
 
 public class UrlsController {
 
@@ -88,7 +89,9 @@ public class UrlsController {
             var body = Jsoup.parse(response.getBody());
             var title = body.title();
             var h1 = body.selectFirst("h1").wholeText();
-            var description = body.select("meta[name=description]").attr("content");
+            //var description = body.selectFirst("meta[name=description]").attr("content");
+            var description = body.selectFirst("meta[name=description]") != null
+                ? body.selectFirst("meta[name=description]").attr("content") : "none";
             Timestamp createdAt = new Timestamp(new Date().getTime());
             UrlCheck urlCheck = new UrlCheck(id, statusCode, title, h1, description, createdAt);
             UrlCheckRepository.save(urlCheck);

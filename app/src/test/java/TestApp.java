@@ -127,9 +127,15 @@ public class TestApp {
             var response = client.post("/urls/" + urlForCheck.getId() + "/checks");
             assertThat(response.code()).isEqualTo(200);
             var lastCheck = UrlCheckRepository.find(urlForCheck.getId()).orElseThrow();
+            /*assertThat(lastCheck.getTitle()).isEqualTo("Lonely Planet " +
+                    "| Travel Guides & Travel Information - Lonely Planet");
+            assertThat(lastCheck.getH1()).isEqualTo("Discover story-worthy travel moments");
+            assertThat(lastCheck.getDescription()).isEqualTo("Love travel? Discover, " +
+                    "plan and book your perfect trip with expert advice, " +
+                    "travel guides, destination information and inspiration from Lonely Planet.");*/
             assertThat(lastCheck.getTitle()).isEqualTo("Example Domain");
             assertThat(lastCheck.getH1()).isEqualTo("Example Domain");
-            assertThat(lastCheck.getDescription()).isEqualTo("");
+            assertThat(lastCheck.getDescription()).isEqualTo("none");
         });
     }
 }
