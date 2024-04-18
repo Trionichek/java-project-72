@@ -87,7 +87,7 @@ public class UrlsController {
             var statusCode = response.getStatus();
             var body = Jsoup.parse(response.getBody());
             var title = body.title();
-            var h1 = body.selectFirst("h1").wholeText();
+            var h1 = body.selectFirst("h1").text();
             //var description = body.selectFirst("meta[name=description]").attr("content");
             var description = body.selectFirst("meta[name=description]") != null
                 ? body.selectFirst("meta[name=description]").attr("content") : "none";
