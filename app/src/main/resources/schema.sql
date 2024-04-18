@@ -14,6 +14,5 @@ CREATE TABLE url_check (
     h1          VARCHAR(255),
     title       VARCHAR(255),
     description TEXT,
-    created_at  TIMESTAMP,
-    FOREIGN KEY (url_id) REFERENCES urls (id)
+    created_at  TIMESTAMP
 );
