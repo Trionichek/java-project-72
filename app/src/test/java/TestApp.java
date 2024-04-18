@@ -75,7 +75,7 @@ public class TestApp {
             var bodyString = response.body().string();
 
             assertEquals("https://www.example.com",
-                    UrlRepository.find("https://www.example.com", "name").get().getUrl());
+                    UrlRepository.find("https://www.example.com").get().getUrl());
             assertThat(bodyString).contains("Сайты");
             assertThat(bodyString).contains("https://www.example.com");
         });
@@ -108,7 +108,7 @@ public class TestApp {
             var url = new Url(urlName, new Timestamp(new Date().getTime()));
             UrlRepository.save(url);
 
-            assertTrue(UrlRepository.find(url.getId().toString(), "id").isPresent());
+            assertTrue(UrlRepository.find(url.getId()).isPresent());
             var response = client.get("/urls/" + url.getId());
             assertThat(response.code()).isEqualTo(200);
             var bodyString = response.body().string();

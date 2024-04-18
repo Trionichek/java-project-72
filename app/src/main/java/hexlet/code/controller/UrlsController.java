@@ -42,7 +42,7 @@ public class UrlsController {
             URI uri = new URI(rawUrl);
             String url = uri.getScheme() + "://" + uri.getAuthority();
             Timestamp createdAt = new Timestamp(new Date().getTime());
-            if (UrlRepository.find(url, "name").isPresent()) {
+            if (UrlRepository.find(url).isPresent()) {
                 ctx.sessionAttribute("flash", "Страница уже существует");
                 ctx.sessionAttribute("flash-type", "danger");
                 throw new Exception();
@@ -72,7 +72,7 @@ public class UrlsController {
 
     public static void show(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
-        var urlFound = UrlRepository.find(id.toString(), "id")
+        var urlFound = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Url not found"));
         var urlChecks = UrlCheckRepository.getEntities(id);
         var page = new UrlPage(urlFound, urlChecks);
@@ -82,7 +82,7 @@ public class UrlsController {
     public static void check(Context ctx) {
         try {
             Long id = ctx.pathParamAsClass("id", Long.class).get();
-            var url = UrlRepository.find(id.toString(), "id").orElseThrow(() -> new NotFoundResponse("Url not found"));
+            var url = UrlRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
             HttpResponse<String> response = Unirest.get(url.getUrl()).asString();
             var statusCode = response.getStatus();
             var body = Jsoup.parse(response.getBody());

@@ -28,21 +28,40 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    public static Optional<Url> find(String value, String column) throws SQLException {
-        var sql = "SELECT * FROM urls WHERE " + column + " = ?";
+    public static Optional<Url> find(Long id) {
+        var sql = "SELECT * FROM urls WHERE id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, value);
+            stmt.setLong(1, id);
             var resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                Long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                Url url = new Url(name, createdAt);
-                url.setId(id);
+                Url url = new Url(id, name, createdAt);
                 return Optional.of(url);
             }
             return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Optional<Url> find(String name) {
+        var sql = "SELECT * FROM urls WHERE name = ?";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                Long id = resultSet.getLong("id");
+                String nameResult = resultSet.getString("name");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
+                Url url = new Url(id, nameResult, createdAt);
+                return Optional.of(url);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
