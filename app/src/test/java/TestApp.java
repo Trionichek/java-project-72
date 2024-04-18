@@ -1,4 +1,5 @@
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import hexlet.code.repository.UrlCheckRepository;
+import hexlet.code.util.NamedRoutes;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
@@ -54,28 +56,37 @@ public class TestApp {
         mockServer.shutdown();
     }
     @Test
-    public void testMainPage() {
+    void testRoot() {
         JavalinTest.test(app, (server, client) -> {
-            var response = client.get("/");
+            var response = client.get(NamedRoutes.rootPath());
             assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("Анализатор страниц");
         });
+
     }
 
     @Test
-    public void testUrlsPage() {
-        JavalinTest.test(app, (server, client) -> {
-            var response = client.get("/urls");
-            assertThat(response.code()).isEqualTo(200);
-        });
-    }
-
-    @Test
-    public void testCreateUrl() {
+    void testRegisterNewSites() {
         JavalinTest.test(app, (server, client) -> {
             var requestBody = "url=https://www.example.com";
-            var response = client.post("/urls", requestBody);
+            client.post(NamedRoutes.urlsPath(), requestBody);
+            var response = client.get(NamedRoutes.urlsPath());
             assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("https://www.example.com");
+            var bodyString = response.body().string();
+
+            assertEquals("https://www.example.com", UrlRepository.find("https://www.example.com", "name").get().getUrl());
+            assertThat(bodyString).contains("Сайты");
+            assertThat(bodyString).contains("https://www.example.com");
+        });
+    }
+
+    @Test
+    void testDoubleSite() {
+        JavalinTest.test(app, (server, client) -> {
+            var requestBody = "url=https://www.example.com";
+            client.post(NamedRoutes.urlsPath(), requestBody);
+            client.post(NamedRoutes.urlsPath(), requestBody);
+            assertThat(UrlRepository.getEntities()).hasSize(1);
         });
     }
 
