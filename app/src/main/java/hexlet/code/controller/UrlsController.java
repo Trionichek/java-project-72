@@ -91,8 +91,7 @@ public class UrlsController {
             //var description = body.selectFirst("meta[name=description]").attr("content");
             var description = body.selectFirst("meta[name=description]") != null
                 ? body.selectFirst("meta[name=description]").attr("content") : "none";
-            Timestamp createdAt = new Timestamp(new Date().getTime());
-            UrlCheck urlCheck = new UrlCheck(id, statusCode, h1, title, description, createdAt);
+            UrlCheck urlCheck = new UrlCheck(id, statusCode, h1, title, description);
             UrlCheckRepository.save(urlCheck);
             ctx.sessionAttribute("flash", "Страница успешно проверена");
             ctx.sessionAttribute("flash-type", "success");
