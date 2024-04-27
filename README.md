@@ -1,10 +1,5 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/MarkinIA/java-project-72/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/MarkinIA/java-project-72/actions)
-
-
-!!!Вся эта информацию уже была во внутреннем README, за исключением описания проекта, но я на всякий продублирую сюда. Так же в прошлый раз, при работе с этим же 4-м проектом,
-когда я подключил кодклимат к гитхабу для оценки покрытия тестами, мне забанили аккаунт, из-за чего мне пришлось делать новый и переносить весь проект туда, я не хочу рисковать второй раз на текущем этапе
-
+[![Actions Status](https://github.com/Trionichek/java-project-72/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/MarkinIA/java-project-72/actions)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/c07425659ef80fc44282/maintainability)](https://codeclimate.com/github/Trionichek/java-project-72/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c07425659ef80fc44282/test_coverage)](https://codeclimate.com/github/Trionichek/java-project-72/test_coverage)
