@@ -7,8 +7,8 @@ run-dist:
 test:
 	make -C app test
 
-report:
-	make -C app report
+test_report:
+	make -C app test_report
 
 lint:
 	make -C app lint
