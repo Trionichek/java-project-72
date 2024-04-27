@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 public class UrlsController {
 
@@ -41,13 +42,12 @@ public class UrlsController {
             }
             URI uri = new URI(rawUrl);
             String url = uri.getScheme() + "://" + uri.getAuthority();
-            Timestamp createdAt = new Timestamp(new Date().getTime());
             if (UrlRepository.find(url).isPresent()) {
                 ctx.sessionAttribute("flash", "Страница уже существует");
                 ctx.sessionAttribute("flash-type", "danger");
                 throw new Exception();
             } else {
-                var createdUrl = new Url(url, createdAt);
+                var createdUrl = new Url(url);
                 UrlRepository.save(createdUrl);
                 ctx.sessionAttribute("flash", "Страница успешно добавлена");
                 ctx.sessionAttribute("flash-type", "success");
@@ -60,7 +60,8 @@ public class UrlsController {
 
     public static void list(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
-        var page = new UrlsPage(urls);
+        Map<String, UrlCheck> urlsCheck = UrlCheckRepository.findLastCheck();
+        var page = new UrlsPage(urls, urlsCheck);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("list.jte", Collections.singletonMap("page", page));
@@ -87,8 +88,7 @@ public class UrlsController {
             var statusCode = response.getStatus();
             var body = Jsoup.parse(response.getBody());
             var title = body.title();
-            var h1 = body.selectFirst("h1").text();
-            //var description = body.selectFirst("meta[name=description]").attr("content");
+            var h1 = body.selectFirst("h1") != null ? body.selectFirst("h1").wholeText() : "none";
             var description = body.selectFirst("meta[name=description]") != null
                 ? body.selectFirst("meta[name=description]").attr("content") : "none";
             UrlCheck urlCheck = new UrlCheck(id, statusCode, h1, title, description);

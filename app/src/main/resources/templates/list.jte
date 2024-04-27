@@ -29,18 +29,15 @@ content = @`
                         <a href="urls/${url.getId()}">${url.getName()}</a>
                     </td>
                     <td>
-                        @if(!UrlCheckRepository.getEntities(url.getId()).isEmpty())
-                            ${UrlCheckRepository.getEntities(url.getId())
-                            .get(UrlCheckRepository.getEntities(url.getId()).size() - 1)
-                            .getCreatedAt().toLocalDateTime()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}
+                        @if(!page.getUrlsCheck().isEmpty() && page.getUrlsCheck().get(String.valueOf(url.getId())) != null)
+                            ${page.getUrlsCheck().get(String.valueOf(url.getId())).getCreatedAt()
+                                            .toLocalDateTime()
+                                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}
                         @endif
                     </td>
                     <td>
-                        @if(!UrlCheckRepository.getEntities(url.getId()).isEmpty())
-                            ${UrlCheckRepository.getEntities(url.getId())
-                            .get(UrlCheckRepository.getEntities(url.getId()).size() - 1)
-                            .getStatusCode()}
+                        @if(!page.getUrlsCheck().isEmpty() && page.getUrlsCheck().get(String.valueOf(url.getId())) != null)
+                            ${page.getUrlsCheck().get(String.valueOf(url.getId())).getStatusCode()}
                         @endif
                     </td>
                 </tr>
