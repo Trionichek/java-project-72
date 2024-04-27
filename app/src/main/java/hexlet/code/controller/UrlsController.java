@@ -16,9 +16,7 @@ import org.jsoup.Jsoup;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 
 public class UrlsController {
