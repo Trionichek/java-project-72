@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.BuildUrlPage;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
@@ -55,7 +56,7 @@ public class UrlsController {
                 ctx.redirect(NamedRoutes.urlsPath());
             }
         } catch (Exception e) {
-            ctx.redirect(NamedRoutes.urlsPath());
+            ctx.redirect(NamedRoutes.rootPath());
         }
     }
 
@@ -69,7 +70,10 @@ public class UrlsController {
     }
 
     public static void index(Context ctx) {
-        ctx.render("index.jte");
+        var page = new BuildUrlPage();
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
+        ctx.render("index.jte", Collections.singletonMap("page", page));
     }
 
     public static void show(Context ctx) throws SQLException {
