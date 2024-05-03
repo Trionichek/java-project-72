@@ -1,5 +1,4 @@
 @import hexlet.code.dto.UrlsPage
-@import hexlet.code.repository.UrlCheckRepository
 @import java.time.format.DateTimeFormatter
 @param UrlsPage page
 

@@ -13,8 +13,10 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
@@ -24,8 +26,9 @@ public class UrlsController {
     public static boolean checkURI(String uriStr) {
         try {
             URI uri = new URI(uriStr);
+            new URL(uriStr).toURI();
             return !uri.getScheme().isEmpty() && !uri.getAuthority().isEmpty();
-        } catch (URISyntaxException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             return false;
         }
     }
@@ -75,13 +78,15 @@ public class UrlsController {
                 .orElseThrow(() -> new NotFoundResponse("Url not found"));
         var urlChecks = UrlCheckRepository.getEntities(id);
         var page = new UrlPage(urlFound, urlChecks);
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("show.jte", Collections.singletonMap("page", page));
     }
 
     public static void check(Context ctx) {
+        Long id = ctx.pathParamAsClass("id", Long.class).get();
+        var url = UrlRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
         try {
-            Long id = ctx.pathParamAsClass("id", Long.class).get();
-            var url = UrlRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
             HttpResponse<String> response = Unirest.get(url.getName()).asString();
             var statusCode = response.getStatus();
             var body = Jsoup.parse(response.getBody());
@@ -95,7 +100,7 @@ public class UrlsController {
             ctx.sessionAttribute("flash-type", "success");
             ctx.redirect(NamedRoutes.urlPath(id));
         } catch (Exception e) {
-            Long id = ctx.pathParamAsClass("id", Long.class).get();
+            //Long id = ctx.pathParamAsClass("id", Long.class).get();
             ctx.sessionAttribute("flash", "Некорректный адрес");
             ctx.sessionAttribute("flash-type", "danger");
             ctx.redirect(NamedRoutes.urlPath(id));
